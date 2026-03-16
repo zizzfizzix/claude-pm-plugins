@@ -51,12 +51,12 @@ Each plugin under `plugins/<plugin-name>/` follows this structure:
 
 ### Plugin Components
 
-| Directory | Purpose |
-|-----------|---------|
-| `commands/` | Slash commands invokable via `/<command-name>` |
-| `skills/` | Skills invokable by Claude when descriptions match |
-| `agents/` | Specialized sub-agent definitions |
-| `hooks/` | Event hooks (pre/post tool use, etc.) |
+| Directory   | Purpose                                            |
+| ----------- | -------------------------------------------------- |
+| `commands/` | Slash commands invokable via `/<command-name>`     |
+| `skills/`   | Skills invokable by Claude when descriptions match |
+| `agents/`   | Specialized sub-agent definitions                  |
+| `hooks/`    | Event hooks (pre/post tool use, etc.)              |
 
 ---
 
@@ -74,9 +74,9 @@ Each plugin under `plugins/<plugin-name>/` follows this structure:
 
 ## Existing Plugins
 
-| Plugin | Path | Version | Description |
-|--------|------|---------|-------------|
-| meeting-summarize | `plugins/meeting-summarize/` | 1.0.0 | Summarizes meeting notes into structured PM artefacts |
+| Plugin            | Path                         | Version | Description                                           |
+| ----------------- | ---------------------------- | ------- | ----------------------------------------------------- |
+| meeting-summarize | `plugins/meeting-summarize/` | 0.0.0   | Summarizes meeting notes into structured PM artefacts |
 
 ---
 
@@ -93,22 +93,22 @@ This repo uses [Release Please](https://github.com/googleapis/release-please) to
 
 ### Conventional Commits
 
-| Commit type | Version bump | Example |
-|-------------|-------------|---------|
-| `feat(<plugin>): ...` | minor (0.x.0 → 0.x+1.0) | `feat(meeting-summarize): add action items extraction` |
-| `fix(<plugin>): ...` | patch (0.0.x → 0.0.x+1) | `fix(meeting-summarize): handle empty transcript` |
-| `feat(<plugin>)!: ...` | major (x.0.0 → x+1.0.0) | `feat(meeting-summarize)!: redesign output format` |
-| `chore: ...` | none | `chore: update dependencies` |
-| `docs: ...` | none | `docs: update CLAUDE.md` |
-| `refactor(<plugin>): ...` | none | `refactor(meeting-summarize): extract helper` |
+| Commit type               | Version bump            | Example                                                |
+| ------------------------- | ----------------------- | ------------------------------------------------------ |
+| `feat(<plugin>): ...`     | minor (0.x.0 → 0.x+1.0) | `feat(meeting-summarize): add action items extraction` |
+| `fix(<plugin>): ...`      | patch (0.0.x → 0.0.x+1) | `fix(meeting-summarize): handle empty transcript`      |
+| `feat(<plugin>)!: ...`    | major (x.0.0 → x+1.0.0) | `feat(meeting-summarize)!: redesign output format`     |
+| `chore: ...`              | none                    | `chore: update dependencies`                           |
+| `docs: ...`               | none                    | `docs: update CLAUDE.md`                               |
+| `refactor(<plugin>): ...` | none                    | `refactor(meeting-summarize): extract helper`          |
 
 The **scope** (the part in parentheses) must match the plugin's `component` value in `release-please-config.json`.
 
 ### Release Please Config Files
 
-| File | Purpose |
-|------|---------|
-| `release-please-config.json` | Declares which packages Release Please manages and how |
+| File                            | Purpose                                                                 |
+| ------------------------------- | ----------------------------------------------------------------------- |
+| `release-please-config.json`    | Declares which packages Release Please manages and how                  |
 | `.release-please-manifest.json` | Tracks current released version per package (managed by Release Please) |
 
 **Version authority:** `plugin.json` is the authoritative version file for a plugin. Release Please updates it automatically via `extra-files` config. Do not manually edit `.release-please-manifest.json` except when adding a new plugin.
