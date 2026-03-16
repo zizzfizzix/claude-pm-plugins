@@ -21,5 +21,3 @@ jobs:
         uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
-        # TODO: Pin to a SHA for security hardening, e.g.:
-        # uses: googleapis/release-please-action@a02a34c4d625ef8
