@@ -9,6 +9,14 @@
         { "type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version" },
         { "type": "json", "path": "/.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='meeting-summarize')].version" }
       ]
+    },
+    "plugins/claude-md": {
+      "release-type": "simple",
+      "component": "claude-md",
+      "extra-files": [
+        { "type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version" },
+        { "type": "json", "path": "/.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='claude-md')].version" }
+      ]
     }
   }
 }

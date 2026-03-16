@@ -1,0 +1,8 @@
+{
+  "name": "claude-md",
+  "version": "0.0.0",
+  "description": "Create and refactor CLAUDE.md project instruction files following best practices for minimal, high-signal Claude Code guidance.",
+  "author": {
+    "name": "Kuba Serafinowski"
+  }
+}

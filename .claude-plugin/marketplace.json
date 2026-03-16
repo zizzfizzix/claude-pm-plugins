@@ -13,6 +13,12 @@
       "version": "0.0.0",
       "description": "Clean and summarize meeting transcripts from SRT, VTT, TSV, TXT and MD formats. Detects meeting type and applies the appropriate summary template.",
       "source": "./plugins/meeting-summarize"
+    },
+    {
+      "name": "claude-md",
+      "version": "0.0.0",
+      "description": "Create and refactor CLAUDE.md project instruction files following best practices for minimal, high-signal Claude Code guidance.",
+      "source": "./plugins/claude-md"
     }
   ]
 }
