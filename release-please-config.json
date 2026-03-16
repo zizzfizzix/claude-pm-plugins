@@ -7,7 +7,7 @@
       "component": "meeting-summarize",
       "extra-files": [
         { "type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version" },
-        { "type": "json", "path": "../../.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='meeting-summarize')].version" }
+        { "type": "json", "path": "/.claude-plugin/marketplace.json", "jsonpath": "$.plugins[?(@.name=='meeting-summarize')].version" }
       ]
     }
   }
