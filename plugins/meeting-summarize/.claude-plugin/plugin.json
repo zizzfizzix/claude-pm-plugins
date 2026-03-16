@@ -1,0 +1,8 @@
+{
+  "name": "meeting-summarize",
+  "version": "1.0.0",
+  "description": "Clean and summarize meeting transcripts from SRT, VTT, TSV, TXT and MD formats. Detects meeting type and applies the appropriate summary template.",
+  "author": {
+    "name": "Kuba Serafinowski"
+  }
+}
