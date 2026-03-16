@@ -13,9 +13,10 @@ A monorepo of independently versioned Claude Code plugins for Product Management
 ## Plugin Structure
 
 Each plugin contains:
+
 - `.claude-plugin/plugin.json` — manifest with `name`, `version`, `description`, `author`
 - `commands/` — slash commands
-- `skills/` — skills invokable by Claude
+- `skills/` — skills invokable by Claude; name them short (e.g. `initiate`, `refactor`) since invocation is prefixed with the plugin name (`<plugin-name>:<skill-name>`)
 - `agents/` — sub-agent definitions
 - `hooks/` — event hooks
 - `scripts/` — helper scripts (e.g. transcript cleaners)

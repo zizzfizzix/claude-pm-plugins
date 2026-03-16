@@ -1,3 +1,4 @@
 {
-  "plugins/meeting-summarize": "0.0.0"
+  "plugins/meeting-summarize": "0.0.0",
+  "plugins/claude-md": "0.0.0"
 }
