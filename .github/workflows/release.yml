@@ -1,0 +1,24 @@
+name: Release
+
+concurrency:
+  group: ${{ github.workflow }}
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  release-please:
+    name: Release Please
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        uses: googleapis/release-please-action@4
+        # TODO: Pin to a SHA for security hardening, e.g.:
+        # uses: googleapis/release-please-action@a02a34c4d625ef8
