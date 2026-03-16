@@ -1,233 +1,203 @@
-# Claude Plugin Marketplace
+# CLAUDE.md — claude-pm-plugins
 
-This repository hosts a plugin marketplace for Claude Code — a catalog of plugins that extend Claude Code with custom skills, agents, hooks, and MCP servers.
+This file documents the repository structure, conventions, and workflows for Claude Code instances working in this repo.
+
+---
+
+## Repository Overview
+
+`claude-pm-plugins` is a **Claude Code plugin marketplace** — a monorepo of independently versioned plugins for Product Management workflows. Each plugin lives under `plugins/<plugin-name>/` and is distributed as a standalone Claude Code plugin.
+
+---
 
 ## Repository Structure
 
 ```
-.
+claude-pm-plugins/
 ├── .claude-plugin/
-│   └── marketplace.json          # Marketplace catalog (required)
+│   └── marketplace.json          # Marketplace registry (all plugins)
+├── .github/
+│   └── workflows/
+│       └── release.yml           # Release Please GitHub Action
 ├── plugins/
 │   └── <plugin-name>/
 │       ├── .claude-plugin/
-│       │   └── plugin.json       # Plugin manifest
-│       ├── skills/               # Agent skills (SKILL.md files)
-│       ├── commands/             # Slash commands (Markdown files)
-│       ├── agents/               # Custom agent definitions
-│       ├── hooks/
-│       │   └── hooks.json        # Event hooks
-│       ├── .mcp.json             # MCP server configs
-│       ├── .lsp.json             # LSP server configs
-│       ├── settings.json         # Default plugin settings
+│       │   └── plugin.json       # Plugin manifest (name, version, description)
+│       ├── commands/             # Slash commands (optional)
+│       ├── skills/               # Skills (optional)
+│       ├── agents/               # Agent definitions (optional)
+│       ├── hooks/                # Hook scripts (optional)
 │       └── README.md
-└── CLAUDE.md
+├── .release-please-manifest.json # Release Please version manifest
+├── release-please-config.json    # Release Please configuration
+└── CLAUDE.md                     # This file
 ```
 
-## Marketplace File
+---
 
-The marketplace catalog lives at `.claude-plugin/marketplace.json`. Every plugin entry requires `name` and `source`.
+## Plugin Structure
 
+Each plugin under `plugins/<plugin-name>/` follows this structure:
+
+### `.claude-plugin/plugin.json` (required)
 ```json
 {
-  "name": "marketplace-name",
-  "owner": {
-    "name": "Your Name or Team",
-    "email": "contact@example.com"
-  },
+  "name": "<plugin-name>",
+  "version": "0.1.0",
+  "description": "Short description of the plugin",
+  "author": "Author Name"
+}
+```
+
+### Plugin Components
+
+| Directory | Purpose |
+|-----------|---------|
+| `commands/` | Slash commands invokable via `/<command-name>` |
+| `skills/` | Skills invokable by Claude when descriptions match |
+| `agents/` | Specialized sub-agent definitions |
+| `hooks/` | Event hooks (pre/post tool use, etc.) |
+
+---
+
+## Dev Workflow
+
+1. Create plugin directory: `plugins/<plugin-name>/`
+2. Add `.claude-plugin/plugin.json` with `"version": "0.1.0"`
+3. Implement plugin components (commands, skills, agents, hooks)
+4. Add entry to `release-please-config.json` (see Versioning section)
+5. Add entry to `.release-please-manifest.json`
+6. Add entry to `.claude-plugin/marketplace.json`
+7. Commit as `feat(<plugin-name>): initial plugin implementation`
+
+---
+
+## Existing Plugins
+
+| Plugin | Path | Version | Description |
+|--------|------|---------|-------------|
+| meeting-summarize | `plugins/meeting-summarize/` | 1.0.0 | Summarizes meeting notes into structured PM artefacts |
+
+---
+
+## Versioning and Release Process
+
+This repo uses [Release Please](https://github.com/googleapis/release-please) to automate plugin versioning via **Conventional Commits**.
+
+### How It Works
+
+1. Developer pushes commits to `main` using Conventional Commit format
+2. Release Please GitHub Action (`.github/workflows/release.yml`) detects commits and opens/updates a Release PR
+3. The Release PR bumps versions in `plugin.json` and `.release-please-manifest.json`
+4. When the Release PR is merged, Release Please creates a GitHub Release and git tag (e.g. `meeting-summarize-v1.2.0`)
+
+### Conventional Commits
+
+| Commit type | Version bump | Example |
+|-------------|-------------|---------|
+| `feat(<plugin>): ...` | minor (0.x.0 → 0.x+1.0) | `feat(meeting-summarize): add action items extraction` |
+| `fix(<plugin>): ...` | patch (0.0.x → 0.0.x+1) | `fix(meeting-summarize): handle empty transcript` |
+| `feat(<plugin>)!: ...` | major (x.0.0 → x+1.0.0) | `feat(meeting-summarize)!: redesign output format` |
+| `chore: ...` | none | `chore: update dependencies` |
+| `docs: ...` | none | `docs: update CLAUDE.md` |
+| `refactor(<plugin>): ...` | none | `refactor(meeting-summarize): extract helper` |
+
+The **scope** (the part in parentheses) must match the plugin's `component` value in `release-please-config.json`.
+
+### Release Please Config Files
+
+| File | Purpose |
+|------|---------|
+| `release-please-config.json` | Declares which packages Release Please manages and how |
+| `.release-please-manifest.json` | Tracks current released version per package (managed by Release Please) |
+
+**Version authority:** `plugin.json` is the authoritative version file for a plugin. Release Please updates it automatically via `extra-files` config. Do not manually edit `.release-please-manifest.json` except when adding a new plugin.
+
+### Adding a New Plugin
+
+When adding `plugins/<plugin-name>/`:
+
+1. Create `plugins/<plugin-name>/.claude-plugin/plugin.json` with `"version": "0.1.0"`
+
+2. Add plugin content (commands, skills, agents, hooks)
+
+3. Add entry to `release-please-config.json` under `packages`:
+   ```json
+   "plugins/<plugin-name>": {
+     "release-type": "simple",
+     "component": "<plugin-name>",
+     "extra-files": [
+       { "type": "json", "path": ".claude-plugin/plugin.json", "jsonpath": "$.version" }
+     ]
+   }
+   ```
+   > `path` in `extra-files` is relative to the package root (`plugins/<plugin-name>/`).
+
+4. Add `"plugins/<plugin-name>": "0.1.0"` to `.release-please-manifest.json`
+
+5. Add entry to `.claude-plugin/marketplace.json` plugins array:
+   ```json
+   {
+     "name": "<plugin-name>",
+     "version": "0.1.0",
+     "description": "...",
+     "path": "plugins/<plugin-name>"
+   }
+   ```
+
+6. Commit all changes as `feat(<plugin-name>): initial plugin implementation`
+
+### Version Management Rules
+
+- **`plugin.json`** — authoritative version source; updated automatically by Release Please
+- **`.release-please-manifest.json`** — managed by Release Please; only edit manually when first registering a plugin
+- **`marketplace.json`** — must be kept in sync manually after each release; update the `version` field to match the new release
+
+---
+
+## Key Rules
+
+- Each plugin is **independently versioned** — a release for one plugin does not affect others
+- Use the plugin name as the **commit scope** to target the correct package
+- Tags follow the pattern `<plugin-name>-v<semver>` (e.g. `meeting-summarize-v1.2.0`) due to `include-component-in-tag: true`
+- `docs:` and `chore:` commits do **not** trigger releases
+- Breaking changes require `!` suffix on the commit type (e.g. `feat!:` or `fix!:`)
+
+---
+
+## Marketplace Registry
+
+`.claude-plugin/marketplace.json` is the central registry listing all available plugins. It is consumed by tooling that discovers and installs plugins.
+
+Schema:
+```json
+{
+  "name": "claude-pm-plugins",
+  "owner": { "name": "..." },
   "metadata": {
-    "description": "Brief description of what this marketplace offers",
-    "version": "1.0.0",
+    "description": "...",
     "pluginRoot": "./plugins"
   },
   "plugins": [
     {
-      "name": "plugin-name",
-      "source": "./plugins/plugin-name",
-      "description": "What this plugin does",
-      "version": "1.0.0",
-      "author": { "name": "Author Name" },
-      "license": "MIT",
-      "category": "productivity",
-      "tags": ["tag1", "tag2"]
+      "name": "<plugin-name>",
+      "version": "<current-version>",
+      "description": "...",
+      "path": "plugins/<plugin-name>"
     }
   ]
 }
 ```
 
-## Plugin Manifest
+Update `marketplace.json` manually after each plugin release to keep versions in sync.
 
-Each plugin needs `.claude-plugin/plugin.json`:
-
-```json
-{
-  "name": "plugin-name",
-  "description": "What this plugin does",
-  "version": "1.0.0",
-  "author": {
-    "name": "Author Name",
-    "email": "author@example.com"
-  },
-  "homepage": "https://example.com/docs",
-  "repository": "https://github.com/org/plugin-repo",
-  "license": "MIT",
-  "keywords": ["keyword1", "keyword2"]
-}
-```
-
-## Plugin Components
-
-### Skills
-
-Skills live in `skills/<skill-name>/SKILL.md`. The folder name becomes the skill name (namespaced as `/plugin-name:skill-name`).
-
-```markdown
----
-description: What this skill does — Claude uses this to decide when to invoke it
-disable-model-invocation: true
 ---
 
-Instructions for Claude when this skill is invoked. Use $ARGUMENTS to capture user input.
-```
+## Plugin Submission
 
-### Commands
+To submit a new plugin to the marketplace, open a PR with:
+- The plugin directory under `plugins/<plugin-name>/`
+- Updated `release-please-config.json`, `.release-please-manifest.json`, and `marketplace.json`
+- A `feat(<plugin-name>): initial plugin implementation` commit
 
-Commands live in `commands/` as Markdown files. Unlike skills, commands are user-invoked (not model-invoked).
-
-### Agents
-
-Custom agents live in `agents/` as Markdown files. Reference them in `settings.json` to set as the default agent for the plugin.
-
-### Hooks
-
-Hooks live in `hooks/hooks.json`. Use `${CLAUDE_PLUGIN_ROOT}` to reference scripts within the plugin.
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### MCP Servers
-
-MCP server configs live in `.mcp.json` at the plugin root:
-
-```json
-{
-  "server-name": {
-    "command": "${CLAUDE_PLUGIN_ROOT}/servers/my-server",
-    "args": ["--config", "${CLAUDE_PLUGIN_ROOT}/config.json"]
-  }
-}
-```
-
-## Plugin Sources
-
-Plugins in this marketplace can be sourced from:
-
-| Source | Example |
-|--------|---------|
-| Relative path (same repo) | `"./plugins/my-plugin"` |
-| GitHub repo | `{ "source": "github", "repo": "owner/repo", "ref": "v1.0.0" }` |
-| Git URL | `{ "source": "url", "url": "https://gitlab.com/org/plugin.git" }` |
-| Git subdirectory | `{ "source": "git-subdir", "url": "owner/monorepo", "path": "tools/plugin" }` |
-| npm package | `{ "source": "npm", "package": "@org/plugin", "version": "1.0.0" }` |
-
-Pin to a specific commit with `"sha": "<40-char-sha>"` for reproducibility.
-
-## Development Workflow
-
-### Add a new plugin
-
-1. Create the plugin directory under `plugins/`:
-   ```bash
-   mkdir -p plugins/my-plugin/.claude-plugin
-   mkdir -p plugins/my-plugin/skills/my-skill
-   ```
-2. Write `.claude-plugin/plugin.json` (manifest)
-3. Write `skills/my-skill/SKILL.md` (or commands, agents, hooks)
-4. Add the plugin entry to `.claude-plugin/marketplace.json`
-5. Test locally (see below)
-6. Commit and push
-
-### Test locally
-
-Load a single plugin directly without installing:
-```bash
-claude --plugin-dir ./plugins/my-plugin
-```
-
-Load multiple plugins at once:
-```bash
-claude --plugin-dir ./plugins/plugin-one --plugin-dir ./plugins/plugin-two
-```
-
-Reload plugins after changes without restarting:
-```
-/reload-plugins
-```
-
-### Validate the marketplace
-
-```bash
-claude plugin validate .
-```
-
-Or from inside Claude Code:
-```
-/plugin validate .
-```
-
-### Add this marketplace to Claude Code
-
-```
-/plugin marketplace add ./                    # local path
-/plugin marketplace add owner/this-repo       # after pushing to GitHub
-```
-
-### Install a plugin from this marketplace
-
-```
-/plugin install plugin-name@marketplace-name
-```
-
-## Versioning
-
-- Use [semantic versioning](https://semver.org/) in all `plugin.json` manifests
-- Set version in `plugin.json` (not in the marketplace entry) for all non-relative-path plugins
-- For relative-path plugins (same repo), set version only in the marketplace entry
-- Each pinned ref/SHA must have a unique version — Claude Code skips updates when versions match
-
-## Key Rules
-
-- **Plugin directories**: `commands/`, `agents/`, `skills/`, `hooks/` go at the **plugin root**, never inside `.claude-plugin/`
-- **Cross-plugin file sharing**: plugins cannot reference files outside their directory via `../`. Use symlinks if sharing is needed.
-- **`${CLAUDE_PLUGIN_ROOT}`**: always use this variable in hooks and MCP configs to reference plugin-internal files
-- **Reserved marketplace names**: do not use `claude-code-marketplace`, `anthropic-marketplace`, or similar official names
-- **Strict mode** (`strict: true` default): `plugin.json` is authoritative for component definitions; marketplace entry supplements it
-
-## Submitting to the Official Marketplace
-
-To submit a plugin to Anthropic's official marketplace:
-- Claude.ai: `claude.ai/settings/plugins/submit`
-- Console: `platform.claude.com/plugins/submit`
-
-## References
-
-- [Create plugins](https://code.claude.com/docs/en/plugins)
-- [Plugin marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
-- [Plugins reference](https://code.claude.com/docs/en/plugins-reference)
-- [Discover and install plugins](https://code.claude.com/docs/en/discover-plugins)
-- [Plugin settings](https://code.claude.com/docs/en/settings#plugin-settings)
+See the [Contributing Guide](CONTRIBUTING.md) if it exists, or open an issue for guidance.
