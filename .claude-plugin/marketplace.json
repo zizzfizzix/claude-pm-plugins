@@ -7,5 +7,12 @@
     "description": "A collection of Product Management productivity plugins for Claude Code",
     "pluginRoot": "./plugins"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "meeting-summarize",
+      "version": "0.0.0",
+      "description": "Clean and summarize meeting transcripts from SRT, VTT, TSV, TXT and MD formats. Detects meeting type and applies the appropriate summary template.",
+      "source": "./plugins/meeting-summarize"
+    }
+  ]
 }
