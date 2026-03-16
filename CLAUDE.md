@@ -141,7 +141,7 @@ When adding `plugins/<plugin-name>/`:
      "name": "<plugin-name>",
      "version": "0.1.0",
      "description": "...",
-     "path": "plugins/<plugin-name>"
+     "source": "./plugins/<plugin-name>"
    }
    ```
 
@@ -183,7 +183,7 @@ Schema:
       "name": "<plugin-name>",
       "version": "<current-version>",
       "description": "...",
-      "path": "plugins/<plugin-name>"
+      "source": "./plugins/<plugin-name>"
     }
   ]
 }
