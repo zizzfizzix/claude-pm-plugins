@@ -4,10 +4,10 @@ A monorepo of independently versioned [Claude Code](https://claude.ai/code) plug
 
 ## Plugins
 
-| Plugin                                              | Version | Description                                                                                                                                          |
-| --------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [meeting-summarize](./plugins/meeting-summarize/)   | 1.0.0   | Clean and summarize meeting transcripts from SRT, VTT, TSV, TXT, and MD formats. Detects meeting type and applies the appropriate summary template.  |
-| [claude-md](./plugins/claude-md/)                   | 1.0.0   | Create and refactor CLAUDE.md project instruction files following best practices for minimal, high-signal Claude Code guidance.                       |
+| Plugin                                            | Version | Description                                                                                                                                         |
+| ------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [meeting-summarize](./plugins/meeting-summarize/) | 1.0.0   | Clean and summarize meeting transcripts from SRT, VTT, TSV, TXT, and MD formats. Detects meeting type and applies the appropriate summary template. |
+| [claude-md](./plugins/claude-md/)                 | 1.0.0   | Create and refactor CLAUDE.md project instruction files following best practices for minimal, high-signal Claude Code guidance.                     |
 
 ## Plugin Details
 
@@ -100,12 +100,12 @@ Each plugin follows the same layout:
 
 Uses [Release Please](https://github.com/googleapis/release-please) with [Conventional Commits](https://www.conventionalcommits.org/). Each plugin is independently versioned.
 
-| Commit prefix        | Version bump |
-| -------------------- | ------------ |
-| `feat(<plugin>):`    | minor        |
-| `fix(<plugin>):`     | patch        |
-| `feat(<plugin>)!:`   | major        |
-| `chore:` / `docs:`   | none         |
+| Commit prefix      | Version bump |
+| ------------------ | ------------ |
+| `feat(<plugin>):`  | minor        |
+| `fix(<plugin>):`   | patch        |
+| `feat(<plugin>)!:` | major        |
+| `chore:` / `docs:` | none         |
 
 Tags follow the format `<plugin-name>-v<semver>` (e.g. `meeting-summarize-v1.2.0`).
 
