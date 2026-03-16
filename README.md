@@ -34,7 +34,18 @@ Both skills target concise, high-signal output (<60 lines for most projects).
 
 ## Installation
 
-Copy a plugin directory into your project or add it to your Claude Code plugins path. Each plugin is self-contained under `plugins/<plugin-name>/`.
+Add this marketplace to Claude Code:
+
+```sh
+/plugin marketplace add zizzfizzix/claude-pm-plugins
+```
+
+Then install individual plugins:
+
+```sh
+/plugin install meeting-summarize
+/plugin install claude-md
+```
 
 ## Repository Structure
 
