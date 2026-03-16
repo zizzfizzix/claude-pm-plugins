@@ -1,0 +1,11 @@
+{
+  "name": "claude-pm-plugins",
+  "owner": {
+    "name": "Kuba Serafinowski"
+  },
+  "metadata": {
+    "description": "A collection of Product Management productivity plugins for Claude Code",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": []
+}
