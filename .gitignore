@@ -2,3 +2,6 @@
 
 # Claude Code devcontainer — local state (credentials, history)
 .devcontainer/.data/
+
+# Git/Claude worktrees
+.claude/worktrees/
