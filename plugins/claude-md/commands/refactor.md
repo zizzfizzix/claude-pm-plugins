@@ -8,6 +8,8 @@ description: TRIGGER when: the user asks to review, improve, refactor, audit, or
 
 Read the existing `CLAUDE.md`. If it does not exist, stop and tell the user to use the initiate-claude-md skill instead.
 
+Also check for an `agent_docs/` directory. List any files there — you will need to know what already exists before deciding where to move content.
+
 ## Step 2 — Audit Against Best Practices
 
 Evaluate the file on these criteria and build a numbered findings list:
@@ -30,7 +32,8 @@ Evaluate the file on these criteria and build a numbered findings list:
 - Instructions that only apply to a specific task, not every Claude session
 
 **Verbosity to reduce**:
-- Any section longer than ~10 lines that could move to `agent_docs/`
+- Any section longer than ~10 lines is a candidate to move to `agent_docs/`. Good candidates: multi-step workflows, reference tables, domain-specific conventions, architecture notes. Poor candidates: a 2-line explanation or a single command — keep those inline.
+- If a matching `agent_docs/` file already exists, the inline content is a duplicate — remove it and add a reference link instead.
 - Duplicated guidance (same instruction stated more than once)
 - Stale references to paths or commands that no longer exist
 
@@ -51,7 +54,10 @@ If the user says no, show the findings report only. If the user scopes the work 
 
 ## Step 4 — Apply the Refactored Version
 
-Rewrite `CLAUDE.md` addressing confirmed findings. For content moved to `agent_docs/`, create the file with the extracted content and replace the inline section with a one-line reference link.
+Rewrite `CLAUDE.md` addressing confirmed findings. For content moved to `agent_docs/`:
+- If moving to a **new** file: create `agent_docs/<topic>.md` with the extracted content (kebab-case filename, e.g. `branching-strategy.md`)
+- If moving to an **existing** file: append the content under a fitting heading
+- In both cases, replace the inline section in CLAUDE.md with a one-line reference link: `See [agent_docs/<topic>.md](agent_docs/<topic>.md) for <brief description>.`
 
 ## Step 5 — Report Changes
 

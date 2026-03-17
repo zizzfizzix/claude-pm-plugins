@@ -15,6 +15,7 @@ Before writing anything, build a picture of the project:
 - Note the key directory layout (src, tests, docs, etc.)
 - Check for an existing README to understand project purpose
 - Check whether a CLAUDE.md already exists — if it does, stop and tell the user to use the refactor-claude-md skill instead
+- Check whether an `agent_docs/` directory already exists and note any files there — these are reference docs Claude agents use; link to them from CLAUDE.md rather than duplicating their content
 
 ## Step 2 — Clarify Purpose (if unclear)
 
@@ -44,7 +45,7 @@ Constraints:
 - Include only guidance that applies to every task in this repo
 - Do not include code style rules, formatting preferences, or linting configuration
 - Do not include auto-generated boilerplate or placeholder sections
-- If a topic needs more than ~10 lines to explain, create an `agent_docs/<topic>.md` file and add a one-line link in CLAUDE.md instead
+- If a topic needs more than ~10 lines to explain, extract it to `agent_docs/<topic>.md` and add a one-line reference link in CLAUDE.md (e.g. `See [agent_docs/deployment.md](agent_docs/deployment.md) for deployment steps.`). Good candidates: workflows with multiple steps, reference tables, domain-specific conventions, architecture diagrams. Poor candidates: short commands, a 2-line explanation — keep those inline. Name files with kebab-case after the topic (e.g. `branching-strategy.md`, `conventional-commits.md`, `data-model.md`)
 - Place the most critical instruction (if any) as the first line; the self-learning instruction as the last line
 
 ## Step 4 — Write the File
