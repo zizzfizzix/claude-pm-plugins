@@ -41,6 +41,17 @@ feat(retro-facilitator)!: redesign output schema
 BREAKING CHANGE: output JSON shape changed; consumers must update parsers
 ```
 
+## Version bumps
+
+The commit type (and optional `!`) determines the semver bump Release Please applies. The scope must match the plugin's `component` in `release-please-config.json`.
+
+| Commit prefix          | Version bump |
+| ---------------------- | ------------ |
+| `feat(<plugin>):`      | minor        |
+| `fix(<plugin>):`       | patch        |
+| `feat(<plugin>)!:`     | major        |
+| `chore:` / `docs:`     | none         |
+
 ## PR titles
 
 PR titles **must** follow the same `type(scope): summary` format. Release Please reads the PR title when squash-merging to determine the version bump — an incorrectly formatted title breaks automated versioning.

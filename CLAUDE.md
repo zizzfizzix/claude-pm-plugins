@@ -36,16 +36,7 @@ Each plugin contains:
 
 ## Versioning
 
-Uses [Release Please](https://github.com/googleapis/release-please) with Conventional Commits. The commit **scope must match** the plugin's `component` in `release-please-config.json`.
-
-| Commit prefix          | Version bump |
-| ---------------------- | ------------ |
-| `feat(<plugin>):`      | minor        |
-| `fix(<plugin>):`       | patch        |
-| `feat(<plugin>)!:`     | major        |
-| `chore:` / `docs:`     | none         |
-
-See [agent_docs/conventional-commits.md](agent_docs/conventional-commits.md) for full commit message format, type reference, and PR title/description guidelines.
+Uses [Release Please](https://github.com/googleapis/release-please) with Conventional Commits. See [agent_docs/conventional-commits.md](agent_docs/conventional-commits.md) for commit format, type reference, version bump rules, and PR guidelines.
 
 **Version authority:** `plugin.json` is the source of truth. After each release, manually update the matching `version` in `.claude-plugin/marketplace.json`.
 
