@@ -51,6 +51,16 @@ Constraints:
 
 Write the drafted content to `CLAUDE.md` in the project root.
 
-## Step 5 — Verify
+## Step 5 — Commit
+
+If the working directory is a git repo, offer to commit the new file. Use Conventional Commits format — consult `agent_docs/conventional-commits.md` if it exists in the project, otherwise default to:
+
+```
+docs: add CLAUDE.md
+```
+
+Do not commit automatically — ask the user first.
+
+## Step 6 — Verify
 
 Read back the file you just wrote and display it to the user with a brief summary: line count, sections included, and any `agent_docs/` files created.

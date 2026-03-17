@@ -45,6 +45,8 @@ Uses [Release Please](https://github.com/googleapis/release-please) with Convent
 | `feat(<plugin>)!:`     | major        |
 | `chore:` / `docs:`     | none         |
 
+See [agent_docs/conventional-commits.md](agent_docs/conventional-commits.md) for full commit message format, type reference, and PR title/description guidelines.
+
 **Version authority:** `plugin.json` is the source of truth. After each release, manually update the matching `version` in `.claude-plugin/marketplace.json`.
 
 ---

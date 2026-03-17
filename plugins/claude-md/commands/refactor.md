@@ -67,3 +67,13 @@ After writing, produce a change summary:
 ```
 
 Then display the full final `CLAUDE.md` content.
+
+## Step 6 — Commit
+
+If the working directory is a git repo and changes were made, offer to commit. Use Conventional Commits format — consult `agent_docs/conventional-commits.md` if it exists in the project, otherwise default to:
+
+```
+docs: refactor CLAUDE.md
+```
+
+Do not commit automatically — ask the user first.
